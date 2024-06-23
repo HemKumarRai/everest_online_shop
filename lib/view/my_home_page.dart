@@ -1,6 +1,9 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:online_shop/controller/product_controller.dart';
+import 'package:online_shop/model/product.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -13,14 +16,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool isFavorite = false;
+
+//  ProductController controller = ProductController();
+
 
 
   @override
   Widget build(BuildContext context) {
+    // final controller = Provider.of<ProductController>(context,listen: false);
 
 
-   return Scaffold(
+  return Scaffold(
     appBar: AppBar(actions: const[
       Icon(Icons.add_alert_sharp,color: Colors.red,)
     ],title: const Text("Hamro Online Shop",style: TextStyle(
@@ -30,7 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
     ),),
     leading:const  Icon(Icons.safety_check,color: Colors.red,),
     ),
-    body: SingleChildScrollView(
+    body: Consumer<ProductController>(
+      builder:(context,controller,child)=>SingleChildScrollView(
       child: Column(
           children: [
         Container(
@@ -65,31 +72,32 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+
       const SizedBox(height: 14,),
+
+  
         GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-       itemCount: 16,
+       itemCount: controller.myProduct.length,
 
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
          crossAxisCount: 2,
         ),
 
-
-        itemBuilder: (context,index){
-       return  Center(child: card());
+       itemBuilder: (context,index){
+       return  Center(child: card(controller.myProduct[index],controller,index));
         }
         )
 
       ]),
+    ) ,
+
     ),
-    
-   
-   
-   );
+     );
   }
 
-  Widget card() {
+  Widget card(Product product,ProductController controller,int index) {
     return Container(
         height: 200,
         width: 200,
@@ -102,17 +110,17 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-                child: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7zyhum1Qafnoj5ABcky_-hD02-o5EcXblhA&s",height: 140,width: 200,fit: BoxFit.fitWidth,)),
+                child: Image.network(product.productImage??"",height: 140,width: 200,fit: BoxFit.fitWidth,)),
             const SizedBox(height: 8,),
              Column(
               children: [
-            const SizedBox(
+             SizedBox(
               width: 200,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Digital Watch"),
-                  Text("Rs.14000"),
+                  Text(product.name??''),
+                  Text((product.price??0.0).toString()),
                 ],
               ),
             ),
@@ -122,25 +130,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Quantity x4",style: TextStyle(
+                       Text("Quantity: ${product.quantity??0}",style: const TextStyle(
                         fontSize: 12
                       ),),
                     Row(
                       children: [
                         GestureDetector(
                           onTap: (){
-                            setState(() {
-                              isFavorite = ! isFavorite;
-                              // if(isFavorite==true){
-                              //   isFavorite = false;
-                              // }else{
-                              //   isFavorite = true;
-                              // }
-                            });
+                         
+                      controller.toggleFavorite(index);
+                      
+              
                           },
                           
                           child:  Icon(
-                             isFavorite?Icons.favorite: Icons.favorite_border,color: Colors.red,)),
+                            product.isFavorite?Icons.favorite: Icons.favorite_border,color: Colors.red,)),
                         const SizedBox(width: 6,),
                       
                         const Icon(Icons.add_shopping_cart,color: Colors.indigo,),
