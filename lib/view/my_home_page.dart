@@ -28,7 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   return Scaffold(
     appBar: AppBar(actions: const[
-      Icon(Icons.add_alert_sharp,color: Colors.red,)
+      Icon(Icons.add_alert_sharp,color: Color.fromARGB(255, 234, 234, 234),)
     ],title: const Text("Hamro Online Shop",style: TextStyle(
       color: Colors.green,
       fontSize: 13.0,
@@ -78,11 +78,15 @@ class _MyHomePageState extends State<MyHomePage> {
   
         GridView.builder(
         shrinkWrap: true,
+        padding: const EdgeInsetsDirectional.symmetric(horizontal: 14),
         physics: const NeverScrollableScrollPhysics(),
        itemCount: controller.myProduct.length,
 
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
          crossAxisCount: 2,
+         childAspectRatio: 0.8,
+         mainAxisSpacing: 20,
+         crossAxisSpacing: 20
         ),
 
        itemBuilder: (context,index){
@@ -99,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget card(Product product,ProductController controller,int index) {
     return Container(
-        height: 200,
+        // height: 200,
         width: 200,
         decoration: const BoxDecoration(
           color: Colors.white,

@@ -16,6 +16,13 @@ class ProductController extends ChangeNotifier{
   price: 89000,
   productImage: 'https://e7.pngegg.com/pngimages/63/912/png-clipart-black-microsoft-windows-laptop-computer-laptop-macbook-pro-refurbishment-macbook-air-laptops-gadget-electronics.png',
 
+),
+ Product(
+     name: "Laptop",
+  quantity: 12,
+  price: 89000,
+  productImage: 'https://e7.pngegg.com/pngimages/63/912/png-clipart-black-microsoft-windows-laptop-computer-laptop-macbook-pro-refurbishment-macbook-air-laptops-gadget-electronics.png',
+
 )
  ];
 
