@@ -1,9 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:online_shop/controller/product_controller.dart';
 import 'package:online_shop/view/my_home_page.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -17,10 +25,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<ProductController>(create: (context)
         =>ProductController()
-        // {
-        //   return ProductController();
-        // }
-        
         )
       ],
       child: MaterialApp(
